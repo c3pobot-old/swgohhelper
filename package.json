@@ -1,0 +1,24 @@
+{
+  "name": "swgohhelper",
+  "version": "1.0.0",
+  "description": "common formats",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/c3po-modules/swgohhelper.git"
+  },
+  "author": "scuba75",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/c3po-modules/swgohhelper/issues"
+  },
+  "homepage": "https://gitlab.com/c3po-modules/swgohhelper#readme",
+  "dependencies": {
+    "got": "^11.8.6",
+    "json-array-sorter": "0.0.5",
+    "numeral": "^2.0.6"
+  }
+}
