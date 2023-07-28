@@ -9,7 +9,7 @@ const enumOmiType = {
   14: 'gac',
   15: 'gac'
 }
-module.exports = async(unit = {})=>{
+module.exports = (unit = {})=>{
   if(gameData?.unitData && gameData.unitData[unit.baseId]){
     let res = {zetaCount: 0, omiCount: {total: 0, tb: 0, tw: 0, gac: 0, conquest: 0}, sixModCount: 0}
     const unitData = gameData.unitData[unit.baseId]
