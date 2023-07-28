@@ -13,14 +13,14 @@ module.exports = async(rosterUnit = [], allyCode, calcExtraStats = false)=>{
         decompress: true,
         responseType: 'json',
         resolveBodyOnly: true
-      })y
+      })
       if(!unitStats) throw('Error caculcating stats for '+allyCode)
       let i = rosterUnit.length
       while(i--){
         if(!unitStats[rosterUnit[i].definitionId?.split(':')[0]]) continue
-        rosterUnit[i] = {...rosterUnit[i],...unitStats[unit.definitionId?.split(':')[0]]}
+        rosterUnit[i] = {...rosterUnit[i],...unitStats[rosterUnit[i].definitionId?.split(':')[0]]}
         rosterUnit[i].sort = (+rosterUnit[i].currentTier || 0) + (+rosterUnit[i].relic?.currentTier || 0) + ((+rosterUnit[i].gp || 0) / 100000000)
-        delete rosterUnit[index].stats.gp
+        delete rosterUnit[i].stats.gp
         //res.omiCount = { total: 0, tb: 0, tw: 0, gac: 0, conquest: 0 }
         let stats = UpdateStatCalcUnit(rosterUnit[i])
         if(stats?.zetaCount) res.zetaCount += stats.zetaCount
