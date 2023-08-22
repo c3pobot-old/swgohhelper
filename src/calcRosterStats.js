@@ -1,38 +1,13 @@
 'use strict'
-const got = require('got')
-const UpdateStatCalcUnit = require('./updateStatCalcUnit')
+const statCalc = require('statcalc')
 module.exports = async(rosterUnit = [], allyCode, calcExtraStats = false)=>{
   try{
-    if(process.env.STAT_URI && rosterUnit?.length > 0){
-      let res = { zetaCount: 0, sixModCount: 0, omiCount: { total: 0, tb: 0, tw: 0, gac: 0, conquest: 0 }}
-      const unitStats = await got(process.env.STAT_URI+'/api?flags=percentVals,calcGP,statIDs,gameStyle', {
-        method: 'POST',
-        json: rosterUnit,
-        retry: 0,
-        timeout: 10000,
-        decompress: true,
-        responseType: 'json',
-        resolveBodyOnly: true
-      })
-      if(!unitStats) throw('Error caculcating stats for '+allyCode)
-      let i = rosterUnit.length
-      while(i--){
-        if(!unitStats[rosterUnit[i].definitionId?.split(':')[0]]) continue
-        rosterUnit[i] = {...rosterUnit[i],...unitStats[rosterUnit[i].definitionId?.split(':')[0]]}
-        rosterUnit[i].sort = (+rosterUnit[i].currentTier || 0) + (+rosterUnit[i].relic?.currentTier || 0) + ((+rosterUnit[i].gp || 0) / 100000000)
-        delete rosterUnit[i].stats.gp
-        //res.omiCount = { total: 0, tb: 0, tw: 0, gac: 0, conquest: 0 }
-        let stats = UpdateStatCalcUnit(rosterUnit[i])
-        if(stats?.zetaCount) res.zetaCount += stats.zetaCount
-        if(stats?.omiCount){
-          res.omiCount.total += stats.omiCount.total
-          res.omiCount.tb += stats.omiCount.tb
-          res.omiCount.tw += stats.omiCount.tw
-          res.omiCount.gac += stats.omiCount.gac
-          res.omiCount.conquest += stats.omiCount.conquest
-        }
-        if(stats?.sixModCount) res.sixModCount += stats.sixModCount
-      }
+    if(!rosterUnit || rosterUnit.length === 0) throw(`${allyCode} has no units`)
+    let summary = statCalc.calcRosterStats(rosterUnit)
+    if(profile.summary){
+      let res { zetaCount: profile.summary.zetaCount, sixModCount: profile.summary.zetaCount, omiCount: profile.summary.omi, roster: profile.roster, summary: profile.summary}
+      res.omiCount.gac = profile.summary.omi.ga
+      res.omiCount.conquest = profile.summary.omi.cq
       return res
     }
   }catch(e){
