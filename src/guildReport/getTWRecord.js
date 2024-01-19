@@ -12,7 +12,7 @@ const GetResults = (twResults)=>{
           }
         }else{
           res.loss++
-          if(+twResults[i].endTimeSeconds > twResults.time){
+          if(+twResults[i].endTimeSeconds > res.last.time){
             res.last.time = +twResults[i].endTimeSeconds
             res.last.status = 'L'
           }
